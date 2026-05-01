@@ -10,14 +10,16 @@ param(
 $ErrorActionPreference = "Stop"
 Set-Location $PSScriptRoot
 
-if (git remote get-url origin 2>$null) {
+$remotes = @(git remote 2>$null)
+if ($remotes -contains "origin") {
     git remote set-url origin $RemoteUrl
-    Write-Host "origin URL 을 갱신했습니다." -ForegroundColor Green
+    Write-Host "Updated origin URL." -ForegroundColor Green
 } else {
     git remote add origin $RemoteUrl
-    Write-Host "origin 을 추가했습니다." -ForegroundColor Green
+    Write-Host "Added origin." -ForegroundColor Green
 }
 
 git remote -v
-Write-Host "`n다음: agent worker debug  (경고 없는지 확인)" -ForegroundColor Cyan
-Write-Host "다음: .\start-cursor-my-machine-worker.ps1" -ForegroundColor Cyan
+Write-Host ""
+Write-Host "Next: agent worker debug (check warnings)" -ForegroundColor Cyan
+Write-Host "Next: .\start-cursor-my-machine-worker.ps1" -ForegroundColor Cyan
